@@ -11,65 +11,64 @@ namespace Uebungsbeispiel_Patientenverwaltung
 
         public void addPerson()
         {
-            String s = null;
-            bool gender = false;
-            if(radioman.IsChecked == true)
-            {
-                gender = true;
-                s = firstname.Text + ";" + lastname.Text + ";" + datepicker.SelectedDate + ";" + gender + ";" + bedwetter.IsChecked;
-            }
-            else if(radiowomen.IsChecked == true){
-                gender = false;
-                s = firstname.Text + ";" + lastname.Text + ";" + datepicker.SelectedDate + ";" + gender + ";" + bedwetter.IsChecked;
-            }
-
-            if(s !=null)
+            if (!(firstname.Text == null || firstname.Text == "") && !(lastname.Text == null || lastname.Text == "") && (radioman.IsChecked == true ^ radiowomen.IsChecked == true) && (datepicker.SelectedDate != null))
             {
                 Patient temp = new Patient();
-                if (Patient.Tryparse(s, out temp))
-                {
-                    listbox.Items.Add(temp.ToString());
-                }
-            }
+                temp.firstname = firstname.Text;
+                temp.lastname = lastname.Text;
+                temp.gender = (radioman.IsChecked == true) ? true : false;
+                temp.birthday = datepicker.SelectedDate;
+                temp.betwetter = bedwetter.IsChecked == true;
 
-            
+                listbox.Items.Add(temp.ToString());
+            }
         }
 
         public void removePerson()
         {
-            if(listbox.SelectedItem != null)
+            if (listbox.SelectedItem != null)
             {
                 listbox.Items.Remove(listbox.SelectedItem);
+                firstname.Text = string.Empty;
+                lastname.Text = string.Empty;
+                datepicker.SelectedDate = null;
+                radioman.IsChecked = false;
+                radiowomen.IsChecked = false;
+                bedwetter.IsChecked = false;
             }
+
         }
 
         private void refillForm()
         {
-            String s = listbox.SelectedItem.ToString();
-            Patient temp = new Patient();
-            if(Patient.Tryparse(s, out temp))
+            if (listbox.SelectedItem != null)
             {
-                firstname.Text = temp.firstname;
-                lastname.Text = temp.lastname;
-                datepicker.SelectedDate = temp.birthday;
-                if (temp.gender == true)
+                String s = listbox.SelectedItem.ToString();
+                Patient temp = new Patient();
+                if (Patient.TryParse(s, out temp))
                 {
-                    radioman.IsChecked = true;
-                }
-                else
-                {
-                    radiowomen.IsChecked = true;
-                }
+                    firstname.Text = temp.firstname;
+                    lastname.Text = temp.lastname;
+                    datepicker.SelectedDate = temp.birthday;
+                    if (temp.gender == true)
+                    {
+                        radioman.IsChecked = true;
+                    }
+                    else
+                    {
+                        radiowomen.IsChecked = true;
+                    }
 
 
-                if (temp.betwetter == true)
-                {
-                    bedwetter.IsChecked = true;
+                    if (temp.betwetter == true)
+                    {
+                        bedwetter.IsChecked = true;
+                    }
+                    else
+                    {
+                        bedwetter.IsChecked = false;
+                    }
                 }
-                else
-                {
-                    bedwetter.IsChecked = false;
-                } 
             }
         }
 
@@ -83,10 +82,13 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 path = openFileDialog.FileName;
                 listbox.Items.Clear();
                 StreamReader sr = new StreamReader(path);
-                while(!sr.EndOfStream )
+                while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
-                    listbox.Items.Add(line);
+                    if (Patient.TryParse(line, out Patient temp))
+                    {
+                        listbox.Items.Add(temp.ToString());
+                    }
                 }
                 sr.Close();
             }
@@ -99,7 +101,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
             String path = null;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
-            if(saveFileDialog.ShowDialog() == true)
+            if (saveFileDialog.ShowDialog() == true)
             {
                 path = saveFileDialog.FileName;
                 StreamWriter sw = new StreamWriter(path);
@@ -109,7 +111,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 }
                 sw.Close();
             }
-            
+
         }
     }
 }
