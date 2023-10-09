@@ -19,8 +19,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 temp.gender = (radioman.IsChecked == true) ? true : false;
                 temp.birthday = datepicker.SelectedDate;
                 temp.betwetter = bedwetter.IsChecked == true;
-
-                listbox.Items.Add(temp.ToString());
+                listbox.Items.Add(temp);
             }
         }
 
@@ -43,7 +42,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
         {
             if (listbox.SelectedItem != null)
             {
-                String s = listbox.SelectedItem.ToString();
+                String s = (string)listbox.SelectedItem;
                 Patient temp = new Patient();
                 if (Patient.TryParse(s, out temp))
                 {
@@ -87,7 +86,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
                     string line = sr.ReadLine();
                     if (Patient.TryParse(line, out Patient temp))
                     {
-                        listbox.Items.Add(temp.ToString());
+                        listbox.Items.Add(temp);
                     }
                 }
                 sr.Close();
@@ -105,9 +104,9 @@ namespace Uebungsbeispiel_Patientenverwaltung
             {
                 path = saveFileDialog.FileName;
                 StreamWriter sw = new StreamWriter(path);
-                for (int i = 0; i < listbox.Items.Count; i++)
+                foreach (Patient patient in listbox.Items)
                 {
-                    sw.WriteLine(listbox.Items[i].ToString());
+                    sw.WriteLine(patient.CSVToString());
                 }
                 sw.Close();
             }

@@ -27,7 +27,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
         public static bool TryParse(string s, out Patient patient)
         {
             patient = new Patient();
-            char separator = ' ';
+            char separator = ';';
 
 
             string[] patientitems = s.Split(separator);
@@ -47,9 +47,9 @@ namespace Uebungsbeispiel_Patientenverwaltung
             }
 
             // Überprüfen und Zuweisen des Geschlechts
-            if (patientitems[3].Contains("Männlich") ^ patientitems[3].Contains("Weiblich"))
+            if (patientitems[3].Contains("true") ^ patientitems[3].Contains("false"))
             {
-                if (patientitems[3].Contains("Männlich"))
+                if (patientitems[3].Contains("true"))
                 {
                     patient.gender = true;
                 }
@@ -64,12 +64,12 @@ namespace Uebungsbeispiel_Patientenverwaltung
             }
 
 
-            if (patientitems[4].Contains("Bettwässer"))
+            if (patientitems[4].Contains("true"))
             {
                 patient.betwetter = true;
 
             }
-            else if (patientitems[4].Contains("Kein"))
+            else if(patientitems[4].Contains("false"))
             {
                 patient.betwetter = false;
             }
@@ -80,6 +80,11 @@ namespace Uebungsbeispiel_Patientenverwaltung
             }
 
             return true;
+        }
+        public String CSVToString()
+        {
+            return firstname + ";" + lastname + ";" + birthday?.ToString("MM/dd/yyyy") + ";" + gender + ";" + betwetter;
+
         }
     }
 }
