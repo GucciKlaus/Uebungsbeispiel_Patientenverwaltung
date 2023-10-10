@@ -56,6 +56,19 @@ namespace Uebungsbeispiel_Patientenverwaltung
             refillForm();
         }
 
+
+        private void DiseaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            addDisease();
+        }
+
+      
+
+        private void DeleteAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            removeAllPersons();
+        }
+
         
     }
 }

@@ -3,87 +3,112 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows.Media.Media3D;
+using System.Xml.Linq;
 
 namespace Uebungsbeispiel_Patientenverwaltung
 {
-    class Patient
+    public class Patient
     {
         public String firstname { get; set; }
         public String lastname { get; set; }
         public DateTime? birthday { get; set; }
         public bool gender { get; set; }
         public bool betwetter { get; set; }
+        public List<String> diseases { get; set; } = new List<String>();
 
         public override string ToString()
         {
             string genderText = gender ? "Männlich" : "Weiblich";
             string betwetterText = betwetter ? "Bettwässer" : "Kein Bettwässer";
+            string diseas = "";
+            if (diseases.Count > 0)
+            {
+                diseas = "{";
+                for (int i = 0; i < diseases.Count; i++)
+                {
+                    diseas += diseases[i];
 
-            return firstname + " " + lastname + " " + birthday?.ToString("MM/dd/yyyy") + " [" + genderText + "]" + " " + betwetterText;
+                    // Füge ein Komma hinzu, wenn es nicht das letzte Element ist
+                    if (i < diseases.Count - 1)
+                    {
+                        diseas += ",";
+                    }
+                }
+                diseas += "}";
+            }
+            else
+            {
+                diseas = "{ }";
+            }
+           
+            return firstname + " " + lastname + " " + birthday?.ToString("MM/dd/yyyy") + " [" + genderText + "]" + " " + betwetterText +" "+diseas;
         }
-
         public static bool TryParse(string s, out Patient patient)
         {
             patient = new Patient();
             char separator = ';';
-
-
             string[] patientitems = s.Split(separator);
-
-
-            // Überprüfen und Zuweisen von Vorname und Nachname
-            patient.firstname = patientitems[0];
-            patient.lastname = patientitems[1];
-
-            if (DateTime.TryParseExact(patientitems[2], "MM.dd.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime birthday))
+            if (patientitems.Length > 5)
             {
-                patient.birthday = birthday;
-            }
-            else
-            {
-                return false;
-            }
-
-            // Überprüfen und Zuweisen des Geschlechts
-            if (patientitems[3].Contains("true") ^ patientitems[3].Contains("false"))
-            {
-                if (patientitems[3].Contains("true"))
+                patient.firstname = patientitems[0];
+                patient.lastname = patientitems[1];
+                if (DateTime.TryParseExact(patientitems[2], "MM.dd.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime birthday))
                 {
-                    patient.gender = true;
+                    patient.birthday = birthday;
                 }
                 else
                 {
-                    patient.gender = false;
+                    return false;
                 }
-            }
-            else
-            {
-                return false;
-            }
 
+                // Überprüfen und Zuweisen des Geschlechts
+                if (patientitems[3].Contains("true") ^ patientitems[3].Contains("false"))
+                {
+                    if (patientitems[3].Contains("true"))
+                    {
+                        patient.gender = true;
+                    }
+                    else
+                    {
+                        patient.gender = false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+                if (patientitems[4].Contains("true"))
+                {
+                    patient.betwetter = true;
 
-            if (patientitems[4].Contains("true"))
-            {
-                patient.betwetter = true;
+                }
+                else if (patientitems[4].Contains("false"))
+                {
+                    patient.betwetter = false;
+                }
+                else
+                {
+                    return false;
+                }
 
-            }
-            else if(patientitems[4].Contains("false"))
-            {
-                patient.betwetter = false;
-            }
-
-            else
-            {
-                return false;
+                patient.diseases.Add(patientitems[5]);
             }
 
             return true;
         }
         public String CSVToString()
         {
-            return firstname + ";" + lastname + ";" + birthday?.ToString("MM/dd/yyyy") + ";" + gender + ";" + betwetter;
+            String alldeseases = "";
+            foreach(String temp in diseases)
+            {
+                alldeseases += temp;
+            }
+            return firstname + ";" + lastname + ";" + birthday?.ToString("MM/dd/yyyy") + ";" + gender + ";" + betwetter + ";" + alldeseases;
 
         }
     }

@@ -2,7 +2,8 @@
 using System;
 using System.IO;
 using System.Windows;
-
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Uebungsbeispiel_Patientenverwaltung
 {
@@ -20,7 +21,17 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 temp.birthday = datepicker.SelectedDate;
                 temp.betwetter = bedwetter.IsChecked == true;
                 listbox.Items.Add(temp);
+                addPersonToVisualList(temp);
             }
+        }
+
+        public void addPersonToVisualList(Patient temp)
+        {
+            String name = temp.firstname + " " + temp.lastname;
+            Label label = new Label();
+            label.Content = name;
+            label.Background = new SolidColorBrush(Colors.Red);
+            StackGroupPatientList.Children.Add(label);
         }
 
         public void removePerson()
@@ -37,15 +48,33 @@ namespace Uebungsbeispiel_Patientenverwaltung
             }
 
         }
+        private void removeAllPersons()
+        {
+            listbox.Items.Clear();
+        }
+
+        private void addDisease()
+        {
+            if(listbox.SelectedItem != null)
+            {
+                Patient temp = listbox.SelectedItem as Patient;
+                if(DiseaseCombo.SelectedItem != null)
+                {
+                    String? selecteddisease = DiseaseCombo.Text;
+                    temp.diseases.Add(selecteddisease);
+                    listbox.SelectedItem = temp;
+                    listbox.Items.Refresh();
+                }
+            }
+        }
+
+        
 
         private void refillForm()
         {
             if (listbox.SelectedItem != null)
             {
-                String s = (string)listbox.SelectedItem;
-                Patient temp = new Patient();
-                if (Patient.TryParse(s, out temp))
-                {
+                Patient temp = (Patient)listbox.SelectedItem;
                     firstname.Text = temp.firstname;
                     lastname.Text = temp.lastname;
                     datepicker.SelectedDate = temp.birthday;
@@ -67,7 +96,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
                     {
                         bedwetter.IsChecked = false;
                     }
-                }
+                
             }
         }
 
@@ -87,6 +116,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
                     if (Patient.TryParse(line, out Patient temp))
                     {
                         listbox.Items.Add(temp);
+                        addPersonToVisualList(temp);
                     }
                 }
                 sr.Close();
