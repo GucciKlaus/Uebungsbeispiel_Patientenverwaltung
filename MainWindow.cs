@@ -51,6 +51,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
         private void removeAllPersons()
         {
             listbox.Items.Clear();
+            StackGroupPatientList.Children.Clear();
         }
 
         private void addDisease()
