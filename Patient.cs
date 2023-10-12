@@ -52,7 +52,6 @@ namespace Uebungsbeispiel_Patientenverwaltung
         {
             patient = new Patient();
             char separator = ';';
-            s = s.ToLower();
             string[] patientitems = s.Split(separator);
             if (patientitems.Length > 5)
             {
@@ -68,9 +67,9 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 }
 
                 // Überprüfen und Zuweisen des Geschlechts
-                if (patientitems[3].Contains("true") ^ patientitems[3].Contains("false"))
+                if (patientitems[3].ToLower().Contains("true") ^ patientitems[3].ToLower().Contains("false"))
                 {
-                    if (patientitems[3].Contains("true"))
+                    if (patientitems[3].ToLower().Contains("true"))
                     {
                         patient.gender = true;
                     }
@@ -83,12 +82,12 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 {
                     return false;
                 }
-                if (patientitems[4].Contains("true"))
+                if (patientitems[4].ToLower().Contains("true"))
                 {
                     patient.betwetter = true;
 
                 }
-                else if (patientitems[4].Contains("false"))
+                else if (patientitems[4].ToLower().Contains("false"))
                 {
                     patient.betwetter = false;
                 }
@@ -98,7 +97,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 }
                 for(int i = 5; i < patientitems.Length; i++)
                 {
-                    patient.diseases.Add(patientitems[i].ToUpper());
+                    patient.diseases.Add(patientitems[i]);
                 }
                 
             }

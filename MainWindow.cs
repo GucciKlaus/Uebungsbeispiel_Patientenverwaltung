@@ -43,12 +43,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
             if (listbox.SelectedItem != null)
             {
                 listbox.Items.Remove(listbox.SelectedItem);
-                firstname.Text = string.Empty;
-                lastname.Text = string.Empty;
-                datepicker.SelectedDate = null;
-                radioman.IsChecked = false;
-                radiowomen.IsChecked = false;
-                bedwetter.IsChecked = false;
+                propertiesDelete();
             }
             else
             {
@@ -61,6 +56,17 @@ namespace Uebungsbeispiel_Patientenverwaltung
         {
             listbox.Items.Clear();
             StackGroupPatientList.Children.Clear();
+            propertiesDelete();
+        }
+
+        public void propertiesDelete()
+        {
+            firstname.Text = string.Empty;
+            lastname.Text = string.Empty;
+            datepicker.SelectedDate = null;
+            radioman.IsChecked = false;
+            radiowomen.IsChecked = false;
+            bedwetter.IsChecked = false;
         }
 
         private void addDisease()
