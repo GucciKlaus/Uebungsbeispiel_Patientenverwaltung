@@ -52,6 +52,7 @@ namespace Uebungsbeispiel_Patientenverwaltung
         {
             patient = new Patient();
             char separator = ';';
+            s = s.ToLower();
             string[] patientitems = s.Split(separator);
             if (patientitems.Length > 5)
             {
@@ -95,8 +96,11 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 {
                     return false;
                 }
-
-                patient.diseases.Add(patientitems[5]);
+                for(int i = 5; i < patientitems.Length; i++)
+                {
+                    patient.diseases.Add(patientitems[i].ToUpper());
+                }
+                
             }
 
             return true;
@@ -104,9 +108,14 @@ namespace Uebungsbeispiel_Patientenverwaltung
         public String CSVToString()
         {
             String alldeseases = "";
-            foreach(String temp in diseases)
+            for(int i = 0; i < diseases.Count; i ++)
             {
-                alldeseases += temp;
+                alldeseases += diseases[i];
+
+                if(i < diseases.Count - 1)
+                {
+                    alldeseases+=";";
+                }
             }
             return firstname + ";" + lastname + ";" + birthday?.ToString("MM/dd/yyyy") + ";" + gender + ";" + betwetter + ";" + alldeseases;
 
