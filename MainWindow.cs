@@ -42,24 +42,23 @@ namespace Uebungsbeispiel_Patientenverwaltung
         {
             if (listbox.SelectedItem != null)
             {
+                StackGroupPatientList.Children.RemoveAt(listbox.SelectedIndex);
                 listbox.Items.Remove(listbox.SelectedItem);
-                propertiesDelete();
+                propertiesClear();
             }
             else
             {
                 showErrorBox("Fehler, Keine Person ausgewählt", "Error");
             }
-            
-
         }
         private void removeAllPersons()
         {
             listbox.Items.Clear();
             StackGroupPatientList.Children.Clear();
-            propertiesDelete();
+            propertiesClear();
         }
 
-        public void propertiesDelete()
+        public void propertiesClear()
         {
             firstname.Text = string.Empty;
             lastname.Text = string.Empty;
