@@ -71,9 +71,16 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 if(DiseaseCombo.SelectedItem != null)
                 {
                     String? selecteddisease = DiseaseCombo.Text;
-                    temp.diseases.Add(selecteddisease);
-                    listbox.SelectedItem = temp;
-                    listbox.Items.Refresh();
+                    if(temp.diseases.Contains(selecteddisease))
+                    {
+                        showErrorBox("Fehler, Krankheit bereits geaddet", "Error");
+                    }
+                    else
+                    {
+                        temp.diseases.Add(selecteddisease);
+                        listbox.SelectedItem = temp;
+                        listbox.Items.Refresh();
+                    }
                 }
             }
             else
