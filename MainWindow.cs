@@ -23,6 +23,10 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 listbox.Items.Add(temp);
                 addPersonToVisualList(temp);
             }
+            else
+            {
+                showErrorBox("Fehler, zu wenig Patientendaten", "Error");
+            }
         }
 
         public void addPersonToVisualList(Patient temp)
@@ -46,6 +50,11 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 radiowomen.IsChecked = false;
                 bedwetter.IsChecked = false;
             }
+            else
+            {
+                showErrorBox("Fehler, Keine Person ausgewählt", "Error");
+            }
+            
 
         }
         private void removeAllPersons()
@@ -66,6 +75,10 @@ namespace Uebungsbeispiel_Patientenverwaltung
                     listbox.SelectedItem = temp;
                     listbox.Items.Refresh();
                 }
+            }
+            else
+            {
+                showErrorBox("Fehler, Keine Person ausgewählt", "Error");
             }
         }
 
@@ -122,7 +135,11 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 }
                 sr.Close();
             }
-            Console.WriteLine(path);
+            else
+            {
+                showErrorBox("Fehler, File öffnen fehlgeschlagen", "Error");
+            }
+
 
         }
 
@@ -141,7 +158,20 @@ namespace Uebungsbeispiel_Patientenverwaltung
                 }
                 sw.Close();
             }
+            else
+            {
+                showErrorBox("Fehler, Speichern fehlgeschlagen", "Error");
+            }
 
+        }
+
+        public void showErrorBox(String messageBoxText, String caption)
+        {
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result;
+            result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+            
         }
     }
 }
