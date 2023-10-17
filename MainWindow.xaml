@@ -14,44 +14,55 @@
                 <MenuItem Name="Close" Header="Close" Click="MenuItemClose_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Info"></MenuItem>
-
         </Menu>
-        <Canvas RenderTransformOrigin="0.354,0.783" Width="734">
-            <Label Content="Vorname:" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Height="26" Width="60"/>
-            <Label Content="Nachname:" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top"  Height="26" Width="71"/>
-            <TextBox Name="firstname" HorizontalAlignment="Left" Margin="81,121,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="18"/>
-            <TextBox Name="lastname" HorizontalAlignment="Left" Margin="81,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="18"/>
-            <DatePicker Name="datepicker" HorizontalAlignment="Left" Margin="81,174,0,0" VerticalAlignment="Top" Height="24" Width="120"/>
-            <CheckBox Name="bedwetter" Content="Bettnässer" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="15" Width="75" Canvas.Left="81" Canvas.Top="325"/>
+        <Grid>
+            <Grid.RowDefinitions>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                <ColumnDefinition Width="1.2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-            <Button Name="addButton" HorizontalAlignment="Left" Margin="206,123,0,0" VerticalAlignment="Top" Height="75" Width="83" Click="addButton_Click">
+
+            <Label Grid.Column="0" Content="Vorname:" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Height="26" Width="60"/>
+            <Label Grid.Column="0" Content="Nachname:" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top"  Height="26" Width="71"/>
+            <TextBox Grid.Column="1" Name="firstname" HorizontalAlignment="Left" Margin="4,121,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="18"/>
+            <TextBox Grid.Column="1" Name="lastname" HorizontalAlignment="Center" Margin="0,156,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="18"/>
+            <DatePicker Name="datepicker" HorizontalAlignment="Left" Margin="124,179,0,0" VerticalAlignment="Top" Height="24" Width="120" Grid.ColumnSpan="2"/>
+            <CheckBox Grid.Column="1" Name="bedwetter" Content="Bettnässer" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="15" Width="76" Canvas.Left="81" Canvas.Top="325" Margin="22,322,0,0"/>
+
+            <Button Grid.Column="2" Name="addButton" HorizontalAlignment="Left" Margin="206,123,0,0" VerticalAlignment="Top" Height="75" Width="83" Click="addButton_Click">
                 <Button.Content>
                     <Image Source="/Arrow.jpg"></Image>
                 </Button.Content>
             </Button>
-            <GroupBox Header="Gender" Canvas.Left="81" Canvas.Top="253" Width="120" Height="56" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <GroupBox Grid.Column="1" Header="Gender" Canvas.Left="81" Canvas.Top="253" Width="120" Height="56" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,255,0,0">
                 <StackPanel>
                     <RadioButton Name="radioman" Content="Männlich" HorizontalAlignment="Center" VerticalAlignment="Top" Height="15" Width="68"/>
                     <RadioButton x:Name="radiowomen" Content="Weiblich" Height="15" Width="68"/>
                 </StackPanel>
-
             </GroupBox>
 
-            <ListBox Name="listbox" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="listbox_SelectionChanged" Height="183" Canvas.Left="307" Canvas.Top="74" Width="240"/>
-            <Button Name="deleteButton" Content="Patient löschen" HorizontalAlignment="Left" Margin="307,273,0,0" VerticalAlignment="Top" Click="deleteButton_Click" Height="20" Width="84"/>
-            <ComboBox Name="DiseaseCombo" HorizontalAlignment="Left" Margin="81,214,0,0" VerticalAlignment="Top" Width="120" Height="22">
+            <ListBox Grid.Column="2" Name="listbox" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="listbox_SelectionChanged" Height="183" Canvas.Left="307" Canvas.Top="74" Width="240" Grid.ColumnSpan="2" Margin="124,110,8,121"/>
+            <Button Grid.Column="3" Name="deleteButton" Content="Patient löschen" HorizontalAlignment="Left" Margin="307,273,0,0" VerticalAlignment="Top" Click="deleteButton_Click" Height="20" Width="84"/>
+            <ComboBox Name="DiseaseCombo" HorizontalAlignment="Left" Margin="124,214,0,0" VerticalAlignment="Top" Width="120" Height="22" Grid.ColumnSpan="2">
                 <ComboBoxItem Content="Gebrochener Fuß"/>
                 <ComboBoxItem Content="Krebs"/>
                 <ComboBoxItem Content="HIV"/>
                 <ComboBoxItem Content="Corona"/>
                 <ComboBoxItem Content="Schiefe Nase"/>
             </ComboBox>
-            <Button Name="DiseaseButton" Content="AddKrankheit" HorizontalAlignment="Left" Margin="206,216,0,0" VerticalAlignment="Top" Width="83" Click="DiseaseButton_Click" Height="20"/>
-            <Button Name="DeleteAllButton" Content="Alle löschen" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteAllButton_Click" Height="20" Width="68" Canvas.Left="479" Canvas.Top="273"/>
-            <GroupBox Name="GroupPatientList"  Header="PatientenListe" Height="180" Canvas.Left="587" Canvas.Top="77" Width="136">
+            <Button Grid.Column="1" Name="DiseaseButton" Content="AddKrankheit" HorizontalAlignment="Left" Margin="206,216,0,0" VerticalAlignment="Top" Width="83" Click="DiseaseButton_Click" Height="20"/>
+            <Button Grid.Column="3" Name="DeleteAllButton" Content="Alle löschen" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteAllButton_Click" Height="20" Width="68" Canvas.Left="479" Canvas.Top="273" Margin="157,312,0,0"/>
+            <GroupBox Grid.Column="5" Name="GroupPatientList"  Header="PatientenListe" Height="180" Canvas.Left="587" Canvas.Top="77" Width="136">
                 <StackPanel Name="StackGroupPatientList">
                 </StackPanel>
             </GroupBox>
-        </Canvas>
+
+        </Grid>
     </DockPanel>
 </Window>
